@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Nova Entrada</h2>
+
+    <form action="{{ url_for('new_entry_save') }}" method="POST" class="entry-form">
+        <div class="form-group">
+            <label for="content">O que você está pensando hoje?</label>
+            <textarea
+                name="content"
+                id="content"
+                rows="10"
+                placeholder="Escreva seus pensamentos aqui..."
+                required
+            ></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
