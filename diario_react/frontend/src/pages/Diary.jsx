@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { getEntries, createEntry, updateEntry, deleteEntry, logout } from '../services/api';
 import ConfirmModal from '../components/ConfirmModal';
 import Toast from '../components/Toast';
+import ThemeToggle from '../components/ThemeToggle';
 import './Diary.css';
 
-function Diary({ user, onLogout }) {
+function Diary({ user, onLogout, darkMode, toggleDarkMode }) {
   const [entries, setEntries] = useState([]);
   const [newEntry, setNewEntry] = useState('');
   const [loading, setLoading] = useState(true);
@@ -143,6 +144,7 @@ function Diary({ user, onLogout }) {
           <h1>Meu Diário</h1>
         </div>
         <div className="header-right">
+          <ThemeToggle darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
           <div className="user-avatar">
             {user.username.charAt(0).toUpperCase()}
           </div>

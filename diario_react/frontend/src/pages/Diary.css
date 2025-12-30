@@ -1,19 +1,21 @@
 .diary-container {
   min-height: 100vh;
-  background: #f8fafc;
+  background: var(--bg-primary);
+  transition: background 0.3s ease;
 }
 
 /* Header moderno */
 .diary-header {
-  background: white;
+  background: var(--bg-secondary);
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid var(--border-light);
   position: sticky;
   top: 0;
   z-index: 100;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .header-left {
@@ -25,7 +27,7 @@
 .header-logo {
   width: 36px;
   height: 36px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--accent-gradient);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -36,7 +38,7 @@
 .header-left h1 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #111;
+  color: var(--text-primary);
   letter-spacing: -0.025em;
 }
 
@@ -49,15 +51,15 @@
 .user-avatar {
   width: 34px;
   height: 34px;
-  background: #f3f4f6;
+  background: var(--bg-tertiary);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #667eea;
-  border: 2px solid #e5e7eb;
+  color: var(--accent-primary);
+  border: 2px solid var(--border-color);
 }
 
 .user-info {
@@ -69,18 +71,18 @@
 .user-greeting {
   font-size: 0.875rem;
   font-weight: 500;
-  color: #111;
+  color: var(--text-primary);
 }
 
 .user-label {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--text-tertiary);
 }
 
 .btn-logout {
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
-  color: #666;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
   padding: 0.5rem 1rem;
   border-radius: 8px;
   cursor: pointer;
@@ -90,8 +92,8 @@
 }
 
 .btn-logout:hover {
-  background: #e5e7eb;
-  color: #111;
+  background: var(--bg-hover);
+  color: var(--text-primary);
 }
 
 .diary-main {
@@ -119,21 +121,22 @@
 .search-input {
   width: 100%;
   padding: 0.75rem 2.5rem 0.75rem 1rem;
-  border: 1px solid #e5e5e5;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   font-size: 0.95rem;
-  background: white;
+  background: var(--input-bg);
+  color: var(--text-primary);
   transition: all 0.2s ease;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: var(--accent-primary);
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .search-input::placeholder {
-  color: #9ca3af;
+  color: var(--text-muted);
 }
 
 .search-clear {
@@ -143,7 +146,7 @@
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #9ca3af;
+  color: var(--text-muted);
   font-size: 1.25rem;
   cursor: pointer;
   padding: 0.25rem;
@@ -152,17 +155,17 @@
 }
 
 .search-clear:hover {
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .search-results {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.9rem;
   margin-bottom: 1rem;
 }
 
 .btn-new-entry {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--accent-gradient);
   color: white;
   border: none;
   padding: 1rem 2rem;
@@ -179,12 +182,13 @@
 }
 
 .entry-form {
-  background: white;
+  background: var(--card-bg);
   border-radius: 16px;
   padding: 2rem;
   margin-bottom: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
   animation: slideDown 0.3s ease-out;
+  transition: background 0.3s ease;
 }
 
 @keyframes slideDown {
@@ -201,26 +205,28 @@
 .entry-form textarea {
   width: 100%;
   padding: 1rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border-color);
   border-radius: 12px;
   font-size: 1rem;
   font-family: inherit;
   resize: vertical;
   min-height: 150px;
-  transition: border-color 0.3s ease;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  transition: border-color 0.3s ease, background 0.3s ease;
 }
 
 .entry-form textarea:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: var(--accent-primary);
 }
 
 .entry-form textarea::placeholder {
-  color: #aaa;
+  color: var(--text-muted);
 }
 
 .btn-save {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
   color: white;
   border: none;
   padding: 1rem 2rem;
@@ -253,8 +259,8 @@
 .spinner {
   width: 50px;
   height: 50px;
-  border: 4px solid #e0e0e0;
-  border-top-color: #667eea;
+  border: 4px solid var(--border-color);
+  border-top-color: var(--accent-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -267,15 +273,16 @@
 
 .loading p {
   margin-top: 1rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;
-  background: white;
+  background: var(--card-bg);
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
+  transition: background 0.3s ease;
 }
 
 .empty-icon {
@@ -284,12 +291,12 @@
 }
 
 .empty-state h2 {
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .empty-state p {
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .entries-list {
@@ -299,11 +306,11 @@
 }
 
 .entry-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 16px;
   padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border-left: 4px solid #667eea;
+  box-shadow: var(--shadow-md);
+  border-left: 4px solid var(--accent-primary);
   transition: all 0.3s ease;
   animation: fadeIn 0.5s ease-out;
 }
@@ -321,7 +328,7 @@
 
 .entry-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-lg);
 }
 
 .entry-header {
@@ -338,13 +345,13 @@
 }
 
 .entry-date {
-  color: #667eea;
+  color: var(--accent-primary);
   font-weight: 600;
   font-size: 0.9rem;
 }
 
 .entry-edited {
-  color: #9ca3af;
+  color: var(--text-muted);
   font-size: 0.75rem;
   font-style: italic;
 }
@@ -358,7 +365,7 @@
 .btn-delete {
   background: none;
   border: none;
-  color: #cbd5e1;
+  color: var(--text-muted);
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0.3rem 0.5rem;
@@ -368,13 +375,13 @@
 }
 
 .btn-edit:hover {
-  background: #e0f2fe;
+  background: rgba(2, 132, 199, 0.1);
   color: #0284c7;
 }
 
 .btn-delete:hover {
-  background: #fee2e2;
-  color: #dc2626;
+  background: rgba(220, 38, 38, 0.1);
+  color: var(--error);
 }
 
 /* Formulário de edição */
@@ -385,18 +392,20 @@
 .edit-form textarea {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #e5e5e5;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   font-size: 0.95rem;
   font-family: inherit;
   resize: vertical;
   min-height: 100px;
+  background: var(--input-bg);
+  color: var(--text-primary);
   transition: border-color 0.2s ease;
 }
 
 .edit-form textarea:focus {
   outline: none;
-  border-color: #111;
+  border-color: var(--accent-primary);
 }
 
 .edit-actions {
@@ -406,8 +415,8 @@
 }
 
 .btn-save-edit {
-  background: #111;
-  color: white;
+  background: var(--text-primary);
+  color: var(--bg-primary);
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 6px;
@@ -418,7 +427,7 @@
 }
 
 .btn-save-edit:hover:not(:disabled) {
-  background: #333;
+  opacity: 0.8;
 }
 
 .btn-save-edit:disabled {
@@ -427,9 +436,9 @@
 }
 
 .btn-cancel-edit {
-  background: white;
-  color: #666;
-  border: 1px solid #e5e5e5;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
   padding: 0.5rem 1rem;
   border-radius: 6px;
   font-size: 0.875rem;
@@ -439,12 +448,12 @@
 }
 
 .btn-cancel-edit:hover {
-  background: #f5f5f5;
-  border-color: #d1d5db;
+  background: var(--bg-tertiary);
+  border-color: var(--border-light);
 }
 
 .entry-content {
-  color: #374151;
+  color: var(--text-secondary);
   line-height: 1.7;
   white-space: pre-wrap;
   word-wrap: break-word;

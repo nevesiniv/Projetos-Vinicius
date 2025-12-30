@@ -9,10 +9,23 @@ function App() {
   const [user, setUser] = useState(null);
   const [page, setPage] = useState('login');
   const [loading, setLoading] = useState(true);
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('darkMode');
+    return saved ? JSON.parse(saved) : false;
+  });
 
   useEffect(() => {
     checkAuth();
   }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
 
   const checkAuth = async () => {
     try {
@@ -46,7 +59,7 @@ function App() {
   }
 
   if (user) {
-    return <Diary user={user} onLogout={handleLogout} />;
+    return <Diary user={user} onLogout={handleLogout} darkMode={darkMode} toggleDarkMode={toggleDarkMode} />;
   }
 
   if (page === 'register') {
