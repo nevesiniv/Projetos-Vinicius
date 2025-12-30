@@ -91,20 +91,20 @@ export async function getEntries() {
   return response.json();
 }
 
-export async function createEntry(content) {
+export async function createEntry(content, mood = null) {
   const response = await fetch(`${API_URL}/entries`, {
     method: 'POST',
     headers: getHeaders(),
-    body: JSON.stringify({ content }),
+    body: JSON.stringify({ content, mood }),
   });
   return response.json();
 }
 
-export async function updateEntry(entryId, content) {
+export async function updateEntry(entryId, content, mood = null) {
   const response = await fetch(`${API_URL}/entries/${entryId}`, {
     method: 'PUT',
     headers: getHeaders(),
-    body: JSON.stringify({ content }),
+    body: JSON.stringify({ content, mood }),
   });
   return response.json();
 }

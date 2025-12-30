@@ -1,0 +1,99 @@
+.mood-selector {
+  margin-bottom: 1rem;
+}
+
+.mood-label {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.mood-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.mood-option {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  background: var(--bg-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mood-option:hover {
+  border-color: var(--mood-color);
+  background: var(--bg-tertiary);
+}
+
+.mood-option.selected {
+  border-color: var(--mood-color);
+  background: var(--mood-color);
+  color: white;
+}
+
+.mood-option.selected .mood-text {
+  color: white;
+}
+
+.mood-emoji {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.mood-text {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* Versão compacta para filtros */
+.mood-selector.compact .mood-options {
+  gap: 0.35rem;
+}
+
+.mood-selector.compact .mood-option {
+  padding: 0.35rem 0.5rem;
+}
+
+.mood-selector.compact .mood-emoji {
+  font-size: 1rem;
+}
+
+/* Badge de mood para as entradas */
+.mood-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+}
+
+.mood-badge .mood-emoji {
+  font-size: 0.9rem;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .mood-options {
+    gap: 0.4rem;
+  }
+
+  .mood-option {
+    padding: 0.4rem 0.6rem;
+  }
+
+  .mood-text {
+    display: none;
+  }
+}
