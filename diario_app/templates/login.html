@@ -1,37 +1,47 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container auth-container">
-    <h2>Entrar</h2>
-
-    <form action="{{ url_for('login') }}" method="POST" class="auth-form">
-        <div class="form-group">
-            <label for="username">Nome de usuário</label>
-            <input
-                type="text"
-                name="username"
-                id="username"
-                placeholder="Seu nome de usuário"
-                required
-            >
+<div class="auth-page">
+    <div class="auth-left">
+        <div class="auth-left-content">
+            <h1>Meu Diário</h1>
+            <p>Registre seus pensamentos e memórias em um lugar seguro.</p>
         </div>
+    </div>
+    <div class="auth-right">
+        <div class="auth-container">
+            <h2>Entrar</h2>
 
-        <div class="form-group">
-            <label for="password">Senha</label>
-            <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Sua senha"
-                required
-            >
+            <form action="{{ url_for('login') }}" method="POST" class="auth-form">
+                <div class="form-group">
+                    <label for="username">Nome de usuário</label>
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="Seu nome de usuário"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="Sua senha"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">Entrar</button>
+            </form>
+
+            <p class="auth-link">
+                Não tem uma conta? <a href="{{ url_for('register') }}">Crie uma agora</a>
+            </p>
         </div>
-
-        <button type="submit" class="btn btn-primary btn-full">Entrar</button>
-    </form>
-
-    <p class="auth-link">
-        Não tem uma conta? <a href="{{ url_for('register') }}">Crie uma agora</a>
-    </p>
+    </div>
 </div>
 {% endblock %}
