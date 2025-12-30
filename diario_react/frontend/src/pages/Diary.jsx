@@ -3,6 +3,7 @@ import { getEntries, createEntry, updateEntry, deleteEntry, logout } from '../se
 import ConfirmModal from '../components/ConfirmModal';
 import Toast from '../components/Toast';
 import ThemeToggle from '../components/ThemeToggle';
+import { EntrySkeleton } from '../components/Skeleton';
 import './Diary.css';
 
 function Diary({ user, onLogout, darkMode, toggleDarkMode }) {
@@ -205,10 +206,7 @@ function Diary({ user, onLogout, darkMode, toggleDarkMode }) {
         )}
 
         {loading ? (
-          <div className="loading">
-            <div className="spinner"></div>
-            <p>Carregando suas entradas...</p>
-          </div>
+          <EntrySkeleton count={3} />
         ) : entries.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">📝</div>

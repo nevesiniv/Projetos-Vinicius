@@ -1,0 +1,95 @@
+/* Animação de shimmer */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-tertiary) 25%,
+    var(--bg-hover) 50%,
+    var(--bg-tertiary) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+/* Tipos básicos */
+.skeleton-text {
+  height: 1rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-title {
+  height: 1.5rem;
+  width: 60%;
+  margin-bottom: 0.75rem;
+}
+
+.skeleton-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Card de entrada skeleton */
+.skeleton-entry-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  border-left: 4px solid var(--bg-tertiary);
+  margin-bottom: 1.5rem;
+}
+
+.skeleton-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.skeleton-date {
+  height: 0.9rem;
+  width: 120px;
+}
+
+.skeleton-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.skeleton-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.skeleton-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skeleton-line {
+  height: 1rem;
+  width: 100%;
+}
+
+.skeleton-line.short {
+  width: 70%;
+}
+
+/* Container para múltiplos skeletons */
+.entries-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
