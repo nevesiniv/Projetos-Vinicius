@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { register } from '../services/api';
+import PasswordStrength, { validatePassword } from '../components/PasswordStrength';
 import './Auth.css';
 
 function Register({ onSwitchToLogin }) {
@@ -17,6 +18,12 @@ function Register({ onSwitchToLogin }) {
 
     if (password !== confirmPassword) {
       setError('As senhas não coincidem');
+      return;
+    }
+
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.isValid) {
+      setError(passwordValidation.message);
       return;
     }
 
@@ -117,10 +124,11 @@ function Register({ onSwitchToLogin }) {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Escolha uma senha"
-                minLength={4}
+                placeholder="Escolha uma senha forte"
+                minLength={8}
                 required
               />
+              <PasswordStrength password={password} />
             </div>
 
             <div className="form-group">
@@ -131,7 +139,7 @@ function Register({ onSwitchToLogin }) {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Digite a senha novamente"
-                minLength={4}
+                minLength={8}
                 required
               />
             </div>
