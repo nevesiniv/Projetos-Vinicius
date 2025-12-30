@@ -9,6 +9,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [page, setPage] = useState('login');
   const [loading, setLoading] = useState(true);
+  const [registeredUsername, setRegisteredUsername] = useState('');
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved ? JSON.parse(saved) : false;
@@ -63,13 +64,21 @@ function App() {
   }
 
   if (page === 'register') {
-    return <Register onSwitchToLogin={() => setPage('login')} />;
+    return (
+      <Register
+        onSwitchToLogin={(username) => {
+          if (username) setRegisteredUsername(username);
+          setPage('login');
+        }}
+      />
+    );
   }
 
   return (
     <Login
       onLogin={handleLogin}
       onSwitchToRegister={() => setPage('register')}
+      initialUsername={registeredUsername}
     />
   );
 }

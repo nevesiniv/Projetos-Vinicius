@@ -36,7 +36,7 @@ function Register({ onSwitchToLogin }) {
       } else {
         setSuccess('Conta criada com sucesso! Redirecionando...');
         setTimeout(() => {
-          onSwitchToLogin();
+          onSwitchToLogin(username);
         }, 1500);
       }
     } catch (err) {
@@ -151,7 +151,7 @@ function Register({ onSwitchToLogin }) {
 
           <p className="auth-switch">
             Já tem uma conta?{' '}
-            <button onClick={onSwitchToLogin} className="link-button">
+            <button onClick={() => onSwitchToLogin()} className="link-button">
               Fazer login
             </button>
           </p>

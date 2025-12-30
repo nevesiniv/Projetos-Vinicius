@@ -1,12 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { login } from '../services/api';
 import './Auth.css';
 
-function Login({ onLogin, onSwitchToRegister }) {
-  const [username, setUsername] = useState('');
+function Login({ onLogin, onSwitchToRegister, initialUsername = '' }) {
+  const [username, setUsername] = useState(initialUsername);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const passwordRef = useRef(null);
+
+  useEffect(() => {
+    if (initialUsername) {
+      setUsername(initialUsername);
+      passwordRef.current?.focus();
+    }
+  }, [initialUsername]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -100,6 +108,7 @@ function Login({ onLogin, onSwitchToRegister }) {
             <div className="form-group">
               <label htmlFor="password">Senha</label>
               <input
+                ref={passwordRef}
                 type="password"
                 id="password"
                 value={password}

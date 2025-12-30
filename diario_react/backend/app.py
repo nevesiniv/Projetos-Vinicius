@@ -18,9 +18,6 @@ CORS(app, supports_credentials=True)
 # Caminho do banco de dados
 DATABASE = 'diario.db'
 
-# Armazena tokens de sessão (em memória)
-active_tokens = {}
-
 
 def get_db_connection():
     """Cria e retorna uma conexão com o banco de dados SQLite"""
@@ -59,6 +56,23 @@ def init_db():
     except sqlite3.OperationalError:
         pass  # Coluna já existe
 
+    # Adiciona coluna mood se não existir
+    try:
+        conn.execute('ALTER TABLE entries ADD COLUMN mood TEXT')
+    except sqlite3.OperationalError:
+        pass  # Coluna já existe
+
+    # Tabela de tokens de sessão (persistente)
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS sessions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            token TEXT NOT NULL UNIQUE,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    ''')
+
     conn.commit()
     conn.close()
 
@@ -69,13 +83,28 @@ def hash_password(password):
 
 
 def get_user_from_token():
-    """Obtém o usuário a partir do token no header"""
+    """Obtém o usuário a partir do token no header (do banco de dados)"""
     auth_header = request.headers.get('Authorization')
     if not auth_header or not auth_header.startswith('Bearer '):
         return None
 
     token = auth_header.split(' ')[1]
-    return active_tokens.get(token)
+
+    conn = get_db_connection()
+    session = conn.execute(
+        '''SELECT s.user_id, u.username FROM sessions s
+           JOIN users u ON s.user_id = u.id
+           WHERE s.token = ?''',
+        (token,)
+    ).fetchone()
+    conn.close()
+
+    if session:
+        return {
+            'id': session['user_id'],
+            'username': session['username']
+        }
+    return None
 
 
 def login_required(f):
@@ -148,12 +177,17 @@ def login():
     conn.close()
 
     if user:
-        # Gera um token único
+        # Gera um token único e salva no banco
         token = secrets.token_hex(32)
-        active_tokens[token] = {
-            'id': user['id'],
-            'username': user['username']
-        }
+        created_at = datetime.now().strftime('%d/%m/%Y %H:%M')
+
+        conn = get_db_connection()
+        conn.execute(
+            'INSERT INTO sessions (user_id, token, created_at) VALUES (?, ?, ?)',
+            (user['id'], token, created_at)
+        )
+        conn.commit()
+        conn.close()
 
         return jsonify({
             'message': 'Login realizado com sucesso!',
@@ -173,7 +207,10 @@ def logout():
     auth_header = request.headers.get('Authorization')
     if auth_header and auth_header.startswith('Bearer '):
         token = auth_header.split(' ')[1]
-        active_tokens.pop(token, None)
+        conn = get_db_connection()
+        conn.execute('DELETE FROM sessions WHERE token = ?', (token,))
+        conn.commit()
+        conn.close()
 
     return jsonify({'message': 'Logout realizado com sucesso!'}), 200
 
@@ -207,7 +244,8 @@ def get_entries():
             'id': entry['id'],
             'content': entry['content'],
             'created_at': entry['created_at'],
-            'updated_at': entry['updated_at']
+            'updated_at': entry['updated_at'],
+            'mood': entry['mood']
         }
         for entry in entries
     ]
@@ -222,6 +260,7 @@ def create_entry():
     user = request.current_user
     data = request.get_json()
     content = data.get('content', '').strip()
+    mood = data.get('mood', '').strip() or None
 
     if not content:
         return jsonify({'error': 'O conteúdo não pode estar vazio'}), 400
@@ -230,8 +269,8 @@ def create_entry():
 
     conn = get_db_connection()
     cursor = conn.execute(
-        'INSERT INTO entries (user_id, content, created_at) VALUES (?, ?, ?)',
-        (user['id'], content, created_at)
+        'INSERT INTO entries (user_id, content, created_at, mood) VALUES (?, ?, ?, ?)',
+        (user['id'], content, created_at, mood)
     )
     entry_id = cursor.lastrowid
     conn.commit()
@@ -242,7 +281,8 @@ def create_entry():
         'entry': {
             'id': entry_id,
             'content': content,
-            'created_at': created_at
+            'created_at': created_at,
+            'mood': mood
         }
     }), 201
 
@@ -254,6 +294,7 @@ def update_entry(entry_id):
     user = request.current_user
     data = request.get_json()
     content = data.get('content', '').strip()
+    mood = data.get('mood', '').strip() or None
 
     if not content:
         return jsonify({'error': 'O conteúdo não pode estar vazio'}), 400
@@ -273,8 +314,8 @@ def update_entry(entry_id):
     # Atualiza a entrada com a data de edição
     updated_at = datetime.now().strftime('%d/%m/%Y %H:%M')
     conn.execute(
-        'UPDATE entries SET content = ?, updated_at = ? WHERE id = ?',
-        (content, updated_at, entry_id)
+        'UPDATE entries SET content = ?, updated_at = ?, mood = ? WHERE id = ?',
+        (content, updated_at, mood, entry_id)
     )
     conn.commit()
     conn.close()
@@ -285,7 +326,8 @@ def update_entry(entry_id):
             'id': entry_id,
             'content': content,
             'created_at': entry['created_at'],
-            'updated_at': updated_at
+            'updated_at': updated_at,
+            'mood': mood
         }
     }), 200
 
